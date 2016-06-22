@@ -26,7 +26,7 @@
      */
     function dijkstra(G, s) {
 
-        console.log('Finding shortest paths from ' + s + ' to all other vertices.');
+        console.log('Now finding the shortest paths from ' + s + ' to all other vertices.');
         console.log();
 
         // step 1
@@ -40,15 +40,15 @@
             insert(Q, index);
         });
 
-        console.log('shortest:' + shortest);
-        console.log('pred:' + pred);
-        console.log('Q:' + Q);
-        console.log();
-
         // step 3
 
         // step 4
 
+        // results
+        console.log('Results:')
+        console.log('shortest:' + shortest);
+        console.log('pred:' + pred);
+        console.log();
     }
 
     var G = {
@@ -68,13 +68,14 @@
     G.E[1] = [null, null, 3, 2, null]; // t
     G.E[2] = [null, null, null, null, 4]; // x
     G.E[3] = [null, 1, 9, null, 3]; // y
-    G.E[4] = [7, null, 5, null, null];
+    G.E[4] = [7, null, 5, null, null]; // z
 
-    console.log('Weighted DAG')
+    console.log('Weighted DAG:')
     G.E.forEach(function (items, u) {
+        console.log(' Vertex ' + G.V[u] + ' has index ' + u + ' and edges:');
         items.forEach(function (weight, v) {
             if (weight !== null) {
-                console.log(' Edge ' + G.V[u] + ',' + G.V[v] + ' with weight ' + weight);
+                console.log('  ' + G.V[u] + ',' + G.V[v] + ' with weight ' + weight);
             }
         });
     });
