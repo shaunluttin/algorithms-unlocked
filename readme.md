@@ -1,0 +1,4 @@
+
+```
+$ node filename.js
+```
