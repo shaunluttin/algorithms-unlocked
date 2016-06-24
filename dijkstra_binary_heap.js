@@ -3,17 +3,33 @@
     var shortest = [];
     var pred = [];
 
-    function insert(Q, item) {
+    function getValue(itemKey) {
+        return shortest[itemKey];
+    }
 
-        Q.push(item);
+    // insert an item in the Q
+    // making sure that the heap property holds.
+    // i.e. the key of each node is <= the keys of its children.
+    function insert(Q, itemKey) {
 
-        var itemIndex = Q.indexOf(item);
+        Q.push(itemKey);    
+
+        var itemIndex = Q.indexOf(itemKey);
         var parentIndex = Math.floor(itemIndex / 2);
 
-        console.log('Q:' + Q);
-        console.log('itemIndex:' + itemIndex + ' itemKey:' + item + ' itemVal:' + shortest[item]);
-        console.log('parentIndex:' + parentIndex + ' parentKey:' + Q[parentIndex] + ' parentVal:' + shortest[Q[parentIndex]]);
-        console.log();
+        var parentKey = Q[parentIndex];
+        
+        var itemValue = getValue(itemKey);
+        var parentValue = getValue(parentKey);
+    
+        while(itemValue < parentValue) {
+            Q[itemIndex] = parentKey;
+            Q[parentIndex] = itemKey;
+            itemIndex = parentIndex;
+            parentIndex = Math.floor(itemIndex / 2);
+            parent = Q.parentIndex;
+            parentValue = getValue(parent);
+        }
     }
 
     /*
@@ -40,6 +56,8 @@
             insert(Q, index);
         });
 
+        console.log(Q);
+
         // step 3
 
         // step 4
@@ -51,19 +69,24 @@
         console.log();
     }
 
+    // 
+    // setup
+    //
+
+    // create the directed graph object
     var G = {
         V: [],
         E: []
     };
 
-    // vertices
+    // add vertices
     G.V[0] = 's';
     G.V[1] = 't';
     G.V[2] = 'x';
     G.V[3] = 'y';
     G.V[4] = 'z';
 
-    // edges in an adjacency list
+    // add edges via an adjacency list
     G.E[0] = [null, 6, null, 4, null]; // s
     G.E[1] = [null, null, 3, 2, null]; // t
     G.E[2] = [null, null, null, null, 4]; // x
@@ -71,6 +94,8 @@
     G.E[4] = [7, null, 5, null, null]; // z
 
     console.log('Weighted DAG:')
+    console.log();
+
     G.E.forEach(function (items, u) {
         console.log(' Vertex ' + G.V[u] + ' has index ' + u + ' and edges:');
         items.forEach(function (weight, v) {
