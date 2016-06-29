@@ -1,112 +1,300 @@
 (function () {
 
-    var shortest = [];
-    var pred = [];
+    'use strict';
 
-    function getValue(itemKey) {
-        return shortest[itemKey];
+    /* 
+     * Gets the parent index of an item in a zero indexed binary heap.
+     * @param {Number} itemIndex
+     * @returns {Number} the parent index
+     */
+    function binaryParent(itemIndex) {
+        return Math.floor((itemIndex - 1) / 2);
     }
 
-    // insert an item in the Q
-    // making sure that the heap property holds.
-    // i.e. the key of each node is <= the keys of its children.
-    function insert(Q, itemKey) {
+    /* 
+     * Moves an itemKey up a binary heap based on its itemValue.
+     * @param {Array} binaryHeap
+     * @param {Number} itemKey 
+     * @param {Array} itemValues
+     */
+    function bubbleUp(binaryHeap, itemKey, itemValues) {
 
-        Q.push(itemKey);    
+        var itemIndex = binaryHeap.lastIndexOf(itemKey);
+        if (itemIndex === 0) {
+            return;
+        }
 
-        var itemIndex = Q.indexOf(itemKey);
-        var parentIndex = Math.floor(itemIndex / 2);
+        var parentIndex = binaryParent(itemIndex);
+        var parentKey = binaryHeap[parentIndex];
 
-        var parentKey = Q[parentIndex];
-        
-        var itemValue = getValue(itemKey);
-        var parentValue = getValue(parentKey);
-    
-        while(itemValue < parentValue) {
-            Q[itemIndex] = parentKey;
-            Q[parentIndex] = itemKey;
+        var itemValue = itemValues[itemKey];
+        var parentValue = itemValues[parentKey];
+
+        while (itemValue < parentValue) {
+
+            if (itemIndex === 0) {
+                break;
+            }
+
+            binaryHeap[itemIndex] = parentKey;
+            binaryHeap[parentIndex] = itemKey;
+
             itemIndex = parentIndex;
-            parentIndex = Math.floor(itemIndex / 2);
-            parent = Q.parentIndex;
-            parentValue = getValue(parent);
+            parentIndex = binaryParent(itemIndex);
+
+            parentKey = binaryHeap[parentIndex];
+            parentValue = itemValues[parentKey];
         }
     }
 
     /*
-     * @input G: a directed graph containing a set V of n vertices
+     * Inserts an item into a binary tree and positions it based on its value.
+     * @param {Array} binaryHeap
+     * @param {Number} itemKey
+     * @param {Array} itemValues
+     */
+    function insert(binaryHeap, itemKey, itemValues) {
+        binaryHeap.push(itemKey);
+        bubbleUp(binaryHeap, itemKey, itemValues);
+    }
+
+    /* 
+     * Removes the item with the lowest value from a binary heap, and return that item to the caller.
+     * @param {Array} binaryHeap
+     * @param {Array} itemValues
+     * @return {Number} item
+     */
+    function extractMin(binaryHeap, itemValues) {
+
+        function binaryFirstChild(itemIndex) {
+            return itemIndex * 2 + 1;
+        }
+
+        if (binaryHeap.length === 1) {
+            return binaryHeap.pop();
+        }
+
+        // save the contents of the root
+        var originalRoot = binaryHeap[0];
+
+        // move the last leaf's content into the root
+        binaryHeap[0] = binaryHeap.pop();
+
+        // bubble down until the heap property holds
+        var parentIndex = 0;
+
+        var parentKey = binaryHeap[parentIndex];
+        var parentValue = itemValues[parentKey];
+
+        var firstChildIndex = binaryFirstChild(parentIndex);
+        var firstChildKey = binaryHeap[firstChildIndex];
+        var firstChildValue = itemValues[firstChildKey];
+
+        var secondChildIndex = firstChildIndex + 1;
+        var secondChildKey = binaryHeap[secondChildIndex];
+        var secondChildValue = itemValues[secondChildKey];
+
+        function doSwapSecond(first, second, parent) {
+            return second !== undefined
+                && second <= first
+                && second < parent;
+        }
+
+        function doSwapFirst(first, second, parent) {
+            return (second === undefined || (first <= second))
+                && first < parent;
+        }
+
+        function isHeap(first, second, parent) {
+            return (first === undefined) // no children
+                || (second === undefined && parent <= first) // one child
+                || (second !== undefined && parent <= first && parent <= second); // two children
+        }
+
+        while (!isHeap(firstChildValue, secondChildValue, parentValue)) {
+
+            parentKey = binaryHeap[parentIndex];
+            parentValue = itemValues[parentKey];
+
+            firstChildIndex = binaryFirstChild(parentIndex);
+            firstChildKey = binaryHeap[firstChildIndex];
+            firstChildValue = itemValues[firstChildKey];
+
+            secondChildIndex = firstChildIndex + 1;
+            secondChildKey = binaryHeap[secondChildIndex];
+            secondChildValue = itemValues[secondChildKey];
+
+            if (doSwapSecond(firstChildValue, secondChildValue, parentValue)) {
+                binaryHeap[parentIndex] = secondChildKey;
+                binaryHeap[secondChildIndex] = parentKey;
+                parentIndex = secondChildIndex;
+            }
+
+            if (doSwapFirst(firstChildValue, secondChildValue, parentValue)) {
+                binaryHeap[parentIndex] = firstChildKey;
+                binaryHeap[firstChildIndex] = parentKey;
+                parentIndex = firstChildIndex;
+            }
+        }
+
+        // return the original root to the caller
+        return originalRoot;
+    }
+
+    /* 
+     * Moves an item into the appropriate location in a binary tree, based on its value.
+     * @param {Array} binaryHeap
+     * @param {Number} itemKey
+     * @param {Array} itemValues
+     */
+    function decreaseKey(binaryHeap, itemKey, itemValues) {
+        bubbleUp(binaryHeap, itemKey, itemValues);
+    }
+
+    /*
+     * Finds the shortest path from a source vertex s within a directed graph G that contains a set V of n vertices 
      * and a set E of m directed edges with non-negative weights.
-     * @input s: a source vertex in V
-     * @result: for each non-source vertex v in V, shortest[v] is 
-     * the weight sp(s, v) of a shortest path from s to v and pred[v]
-     * is the vertex preceding v on some shortest path.
+     * @param {Array} G
+     * @param {Number} s
+     * @returns 
      */
     function dijkstra(G, s) {
 
-        console.log('Now finding the shortest paths from ' + s + ' to all other vertices.');
-        console.log();
+        function relax(u, v, G, shortest, pred) {
+            var current = shortest[v];
+            var candidate = shortest[u] + G.E[u][v];
+            if (candidate < current) {
+                shortest[v] = candidate;
+                pred[v] = u;
+                return true;
+            }
 
-        // step 1
-        shortest = G.V.map(() => Number.MAX_VALUE);
-        shortest[G.V.indexOf('s')] = 0;
-        pred = G.V.map(() => null);
+            return false;
+        }
 
-        // step 2
-        var Q = [];
-        G.V.forEach(function (item, index) {
-            insert(Q, index);
+        function any(array) {
+            return array.filter((x) => x !== null).length > 0;
+        }
+
+        // 
+        // step 1: set shortest and pred defaults
+        //
+        var shortest = G.V.map(() => Number.MAX_SAFE_INTEGER);
+        var pred = G.V.map(() => null);
+        shortest[s] = 0;
+
+        //
+        // step 2: make binaryHeap an empty priority queue
+        //
+        var binaryHeap = [];
+
+        // 
+        // step 3: insert each vertex into the queue, ordered by shortest value.
+        //
+        G.V.forEach(function (item, vertexNumber) {
+            insert(binaryHeap, vertexNumber, shortest);
         });
 
-        console.log(Q);
+        while (any(binaryHeap)) {
+            var u = extractMin(binaryHeap, shortest);
+            G.V[u].forEach((adjacentVertex) => {
+                var decreased = relax(u, adjacentVertex, G, shortest, pred);
+                if (decreased) {
+                    decreaseKey(binaryHeap, adjacentVertex, shortest);
+                }
+            });
+        }
 
-        // step 3
-
-        // step 4
-
-        // results
-        console.log('Results:')
-        console.log('shortest:' + shortest);
-        console.log('pred:' + pred);
-        console.log();
+        return {
+            shortest,
+            pred
+        };
     }
 
-    // 
-    // setup
+    //
+    // test
     //
 
-    // create the directed graph object
+    // the source vertex
+    // from which to find the shortest path to other vertices
+    var source = 1;
+
+    // a directed graph with a set of V vertices
+    // and a set of E directed edges
     var G = {
         V: [],
         E: []
     };
 
-    // add vertices
-    G.V[0] = 's';
-    G.V[1] = 't';
-    G.V[2] = 'x';
-    G.V[3] = 'y';
-    G.V[4] = 'z';
+    // add vertices and their adjacent vertices
+    G.V[0] = [];
+    G.V[1] = [3, 5, 9];
+    G.V[2] = [4];
+    G.V[3] = [8, 10];
+    G.V[4] = [];
+    G.V[5] = [8];
+    G.V[6] = [];
+    G.V[7] = [];
+    G.V[8] = [7, 0];
+    G.V[9] = [7];
+    G.V[10] = [6, 2];
 
-    // add edges via an adjacency list
-    G.E[0] = [null, 6, null, 4, null]; // s
-    G.E[1] = [null, null, 3, 2, null]; // t
-    G.E[2] = [null, null, null, null, 4]; // x
-    G.E[3] = [null, 1, 9, null, 3]; // y
-    G.E[4] = [7, null, 5, null, null]; // z
-
-    console.log('Weighted DAG:')
-    console.log();
-
-    G.E.forEach(function (items, u) {
-        console.log(' Vertex ' + G.V[u] + ' has index ' + u + ' and edges:');
-        items.forEach(function (weight, v) {
-            if (weight !== null) {
-                console.log('  ' + G.V[u] + ',' + G.V[v] + ' with weight ' + weight);
-            }
-        });
+    // add edge weights
+    G.V.forEach(function (item, i) {
+        G.E[i] = [];
     });
-    console.log();
 
-    var s = 's';
-    dijkstra(G, s);
+    G.E[1][3] = 2;
+    G.E[1][5] = 2;
+    G.E[1][9] = 2;
+    G.E[9][7] = 2;
+    G.E[5][8] = 2;
+    G.E[3][8] = 2;
+    G.E[3][10] = 2;
+    G.E[10][6] = 2;
+    G.E[10][2] = 2;
+    G.E[2][4] = 2;
+    G.E[8][7] = 2;
+    G.E[8][0] = 2;
 
-})();
+    //           The DAG - all edges have a weight of (2).
+    //
+    //           +-------+1+-------+
+    //           |        |        |
+    //           |        |        |
+    //           v        v        v
+    // +---------3        5        9
+    // |         |        |        |
+    // |         |        |        |
+    // |         |        v        v
+    // |         +------->8+------>7
+    // v                  |
+    // 10+------+         |
+    // |        |         |
+    // |        |         |
+    // v        v         v
+    // 6        2         0
+    //          |
+    //          |
+    //          v
+    //          4
+
+    var result = dijkstra(G, source);
+
+    function test(vertex, expectedShortest, expectedPred) {
+        var isCorrect = result.shortest[vertex] === expectedShortest && result.pred[vertex] === expectedPred;
+        console.log('The shortest path from ' + source + ' to ' + vertex + ' is ' + result.shortest[vertex] + ' with predecessor ' + expectedPred + ' - ' + isCorrect);
+    }
+
+    test(1, 0, null);
+    test(2, 6, 10);
+    test(3, 2, 1);
+    test(4, 8, 2);
+    test(5, 2, 1);
+    test(6, 6, 10);
+    test(7, 4, 9);
+    test(8, 4, 3);
+    test(9, 2, 1);
+    test(10, 4, 3);
+
+} ());

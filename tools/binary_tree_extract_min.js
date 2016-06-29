@@ -34,18 +34,24 @@ function extractMin(Q, getItemValue) {
     var secondChildKey = Q[secondChildIndex];
     var secondChildValue = getItemValue(secondChildKey);
 
-    function doSwapSecond(firstChildValue, secondChildValue, parentValue) {
-        return secondChildValue !== undefined
-            && secondChildValue <= firstChildValue
-            && secondChildValue < parentValue;
+    function doSwapSecond(first, second, parent) {
+        return second !== undefined
+            && second <= first
+            && second < parent;
     }
 
-    function doSwapFirst(firstChildValue, secondChildValue, parentValue) {
-        return (secondChildValue === undefined || (firstChildValue <= secondChildValue))
-            && firstChildValue < parentValue;
+    function doSwapFirst(first, second, parent) {
+        return (second === undefined || (first <= second))
+            && first < parent;
     }
 
-    while (true) {
+    function isHeap(first, second, parent) {
+        return (first === undefined) // no children
+            || (second === undefined && parent <= first) // one child
+            || (second !== undefined && parent <= first && parent <= second); // two children
+    }
+
+    while (!isHeap(firstChildValue, secondChildValue, parentValue)) {
 
         parentKey = Q[parentIndex];
         parentValue = getItemValue(parentKey);
@@ -62,19 +68,17 @@ function extractMin(Q, getItemValue) {
             Q[parentIndex] = secondChildKey;
             Q[secondChildIndex] = parentKey;
             parentIndex = secondChildIndex;
-            continue;
         }
 
         if (doSwapFirst(firstChildValue, secondChildValue, parentValue)) {
             Q[parentIndex] = firstChildKey;
             Q[firstChildIndex] = parentKey;
             parentIndex = firstChildIndex;
-            continue;
         }
-
-        // return the original root to the caller
-        return originalRoot;
     }
+
+    // return the original root to the caller
+    return originalRoot;
 }
 
 function passThruValue(itemKey) {
@@ -82,12 +86,18 @@ function passThruValue(itemKey) {
     return itemKey;
 }
 
-var binaryTree = [0, 0, 2, 7, 5, 2, 3, 9, 8, 6, 6, 17, 3, 9];
+function test() {
+    "use strict";
+    var binaryTree = [0, 0, 2, 7, 5, 2, 3, 9, 8, 6, 6, 17, 3, 9];
 
-var min = 0;
-var prevMin = -1;
-while (binaryTree.length > 0) {
-    min = extractMin(binaryTree, passThruValue);
-    console.log(`${min} >= ${prevMin} ${(min >= prevMin)}`);
-    prevMin = min;
+    var min = 0;
+    var prevMin = -1;
+    while (binaryTree.length > 0) {
+        min = extractMin(binaryTree, passThruValue);
+        console.log(`${min} >= ${prevMin} ${(min >= prevMin)}`);
+        prevMin = min;
+    }
 }
+
+test();
+
