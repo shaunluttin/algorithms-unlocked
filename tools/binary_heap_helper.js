@@ -3,11 +3,11 @@ var BinaryHeapHelper = (function () {
     function BinaryHeapHelper() {
     }
     /*
- * Gets the parent index of an item in a zero indexed binary heap.
- * @param {Number} itemIndex
- * @returns {Number} the parent index
- */
-    BinaryHeapHelper.prototype.binaryParent = function (itemIndex) {
+    * Gets the parent index of an item in a zero indexed binary heap.
+    * @param {Number} itemIndex
+    * @returns {Number} the parent index
+    */
+    BinaryHeapHelper.binaryParent = function (itemIndex) {
         return Math.floor((itemIndex - 1) / 2);
     };
     /*
@@ -16,12 +16,12 @@ var BinaryHeapHelper = (function () {
      * @param {Number} itemKey
      * @param {Array} itemValues
      */
-    BinaryHeapHelper.prototype.bubbleUp = function (binaryHeap, itemKey, itemValues) {
+    BinaryHeapHelper.bubbleUp = function (binaryHeap, itemKey, itemValues) {
         var itemIndex = binaryHeap.lastIndexOf(itemKey);
         if (itemIndex === 0) {
             return;
         }
-        var parentIndex = this.binaryParent(itemIndex);
+        var parentIndex = BinaryHeapHelper.binaryParent(itemIndex);
         var parentKey = binaryHeap[parentIndex];
         var itemValue = itemValues[itemKey];
         var parentValue = itemValues[parentKey];
@@ -43,11 +43,12 @@ var BinaryHeapHelper = (function () {
      * @param {Number} itemKey
      * @param {Array} itemValues
      */
-    BinaryHeapHelper.prototype.insert = function (binaryHeap, itemKey, itemValues) {
+    BinaryHeapHelper.insert = function (binaryHeap, itemKey, itemValues) {
         binaryHeap.push(itemKey);
-        this.bubbleUp(binaryHeap, itemKey, itemValues);
+        BinaryHeapHelper.bubbleUp(binaryHeap, itemKey, itemValues);
     };
     return BinaryHeapHelper;
 }());
-exports.BinaryHeapHelper = BinaryHeapHelper;
-//# sourceMappingURL=binary_tree_insert.js.map
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = BinaryHeapHelper;
+//# sourceMappingURL=binary_heap_helper.js.map

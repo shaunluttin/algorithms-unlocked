@@ -50,4 +50,4 @@ var BinaryHeapHelper = (function () {
     return BinaryHeapHelper;
 }());
 exports.BinaryHeapHelper = BinaryHeapHelper;
-//# sourceMappingURL=binary_tree_insert.js.map
+//# sourceMappingURL=binary_tree_helper.js.map
