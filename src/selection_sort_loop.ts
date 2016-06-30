@@ -1,4 +1,4 @@
-(function () {
+{
 
     "use strict";
 
@@ -35,4 +35,4 @@
     var passed = JSON.stringify(sortedArray)==JSON.stringify(solutionArray);
     console.log("passed:" + passed);
 
-})();
+}

@@ -1,4 +1,4 @@
-(function () {
+{
 
     "use strict";
 
@@ -48,7 +48,7 @@
 
         // step 1
         var shortest = G.V.map(function () {
-            return Number.MAX_SAFE_INTEGER;
+            return Number.POSITIVE_INFINITY;
         });
 
         var pred = G.V.map(function () {
@@ -151,18 +151,13 @@
     }
 
     test(1, 0, null);
-
-    // six is the expected shorts path from `start = 1` to `finish = 2`
-    // ten is the expected predecessor to six along that shortest path.
     test(2, 6, 10);
-
     test(3, 2, 1);
     test(4, 8, 2);
     test(5, 2, 1);
     test(6, 6, 10);
     test(7, 4, 9);
-    test(8, 4, 3); // false
+    test(8, 4, 3); 
     test(9, 2, 1);
     test(10, 4, 3);
-
-}());
+}
