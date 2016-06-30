@@ -1,16 +1,17 @@
+export default class QuickSort
 {
-    function quickSort(array, firstIndex, lastIndex) {
+    public static quickSort(array, firstIndex, lastIndex) {
         if (firstIndex >= lastIndex) return;
 
-        var firstIndexOfTheRightGroup = partition(array, firstIndex, lastIndex);
+        var firstIndexOfTheRightGroup = QuickSort.partition(array, firstIndex, lastIndex);
 
-        quickSort(array, firstIndex, firstIndexOfTheRightGroup - 1);
-        quickSort(array, firstIndexOfTheRightGroup + 1, lastIndex);
+        QuickSort.quickSort(array, firstIndex, firstIndexOfTheRightGroup - 1);
+        QuickSort.quickSort(array, firstIndexOfTheRightGroup + 1, lastIndex);
 
         return array;
     }
 
-    function partition(array, firstIndex, lastIndex) {
+    public static partition(array, firstIndex, lastIndex) {
         var lastItem = array[lastIndex];
 
         var firstIndexOfTheRightGroup = firstIndex;
@@ -37,15 +38,13 @@
         return firstIndexOfTheRightGroup;
     }
 
-    function test() {
+    public static test() {
         var initialArray = [2, 4, 6, 8, 0, 5, 2, 5, 7, 8, 4, 7, 9];
         var solutionArray = [0, 2, 2, 4, 4, 5, 5, 6, 7, 7, 8, 8, 9];
 
-        var sortedArray = quickSort(initialArray, 0, initialArray.length - 1);
+        var sortedArray = QuickSort.quickSort(initialArray, 0, initialArray.length - 1);
 
         var passed = JSON.stringify(sortedArray) == JSON.stringify(solutionArray);
         console.log('quickSort:' + passed);
     }
-
-    test();
 }

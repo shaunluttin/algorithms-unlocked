@@ -1,7 +1,8 @@
 import ArrayHelper from './tools/array_helper';
 
+export default class RadixSort
 {
-    function rearrange(array, less, length, digit) {
+    public static rearrange(array, less, length, digit) {
         var result: Array<number> = ArrayHelper.fillArray(0, length);
         var next = less.map(function (item, index) {
             return less[index];
@@ -22,7 +23,7 @@ import ArrayHelper from './tools/array_helper';
         return result;
     }
 
-    function countKeysLess(equal, range) {
+    public static countKeysLess(equal, range) {
         var less: Array<number> = ArrayHelper.fillArray(0, range + 1);
 
         less.forEach(function (item, index) {
@@ -36,7 +37,7 @@ import ArrayHelper from './tools/array_helper';
         return less;
     }
 
-    function countKeysEqual(array, length, range, digit) {
+    public static countKeysEqual(array, length, range, digit) {
         let equal: Array<number> = ArrayHelper.fillArray(0, range + 1);
 
         array.forEach(function (item) {
@@ -52,33 +53,31 @@ import ArrayHelper from './tools/array_helper';
         return equal;
     }
 
-    function countingSort(array, length, range, digit) {
-        var equal = countKeysEqual(array, length, range, digit);
-        var less = countKeysLess(equal, range);
-        return rearrange(array, less, length, digit);
+    public static countingSort(array, length, range, digit) {
+        var equal = RadixSort.countKeysEqual(array, length, range, digit);
+        var less = RadixSort.countKeysLess(equal, range);
+        return RadixSort.rearrange(array, less, length, digit);
     }
 
-    function radixSort(array, base, digits) {
+    public static radixSort(array, base, digits) {
         var result = array;
 
         var i = 0;
         while (i < digits) {
-            result = countingSort(result, array.length, base, i);
+            result = RadixSort.countingSort(result, array.length, base, i);
             i = i + 1;
         }
 
         return result;
     }
 
-    function test() {
+    public static test() {
         var initialArray = [102, 414, 326, 348, 210, 425, 562, 905, 317, 228, 444, 57];
         var sortedExpected = [57, 102, 210, 228, 317, 326, 348, 414, 425, 444, 562, 905];
 
-        var sortedActual = radixSort(initialArray, 10, 3);
+        var sortedActual = RadixSort.radixSort(initialArray, 10, 3);
 
         var passed = JSON.stringify(sortedActual) === JSON.stringify(sortedExpected);
         console.log('radixSort:' + passed);
     }
-
-    test();
 }

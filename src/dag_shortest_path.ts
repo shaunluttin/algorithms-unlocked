@@ -1,8 +1,9 @@
 import ArrayHelper from './tools/array_helper';
 
+export default class DagShortestPath
 {
 
-    function topologicalSort(dag) {
+    public static topologicalSort(dag) {
 
         function adjust(vertex, inDegree, next) {
             dag[vertex].forEach(function (v) {
@@ -46,7 +47,7 @@ import ArrayHelper from './tools/array_helper';
         return linearOrder;
     }
 
-    function shortestPath(G, start) {
+    public static shortestPath(G, start) {
 
         var shortest = ArrayHelper.fillArray(Number.POSITIVE_INFINITY, G.V.length);
         var pred = ArrayHelper.fillArray(null, G.V.length);
@@ -64,7 +65,7 @@ import ArrayHelper from './tools/array_helper';
             }
         }
 
-        var sortedDag = topologicalSort(G.V);
+        var sortedDag = DagShortestPath.topologicalSort(G.V);
 
         sortedDag.forEach(function (u) {
             G.V[u].forEach(function (v) {
@@ -78,7 +79,7 @@ import ArrayHelper from './tools/array_helper';
         }
     }
 
-    function testAll() {
+    public static test() {
 
         // the source vertex
         // from which to find the shortest path to other vertices
@@ -144,24 +145,22 @@ import ArrayHelper from './tools/array_helper';
         //          v
         //          4
 
-        var result = shortestPath(G, source);
+        var result = DagShortestPath.shortestPath(G, source);
 
-        function test(vertex, expectedShortest, expectedPred) {
+        function testPath(vertex, expectedShortest, expectedPred) {
             var isCorrect = result.shortest[vertex] === expectedShortest && result.pred[vertex] === expectedPred;
             console.log(`dag - The shortest path from ${source} to ${vertex} is ${result.shortest[vertex]} with predecessor ${expectedPred} - ${isCorrect}`);
         }
 
-        test(1, 0, null);
-        test(2, 6, 10);
-        test(3, 2, 1);
-        test(4, 8, 2);
-        test(5, 2, 1);
-        test(6, 6, 10);
-        test(7, 4, 9);
-        test(8, 4, 5);
-        test(9, 2, 1);
-        test(10, 4, 3);
+        testPath(1, 0, null);
+        testPath(2, 6, 10);
+        testPath(3, 2, 1);
+        testPath(4, 8, 2);
+        testPath(5, 2, 1);
+        testPath(6, 6, 10);
+        testPath(7, 4, 9);
+        testPath(8, 4, 5);
+        testPath(9, 2, 1);
+        testPath(10, 4, 3);
     }
-
-    testAll();
 }

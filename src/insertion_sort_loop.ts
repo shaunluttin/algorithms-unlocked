@@ -1,6 +1,7 @@
+export default class InsertionSortLoop
 {
 
-    function insertionSort(array) {
+    public static insertionSort(array) {
         for (var i = 1; i < array.length; ++i) {
             var currentItem = array[i];
 
@@ -15,16 +16,13 @@
         return array;
     }
 
-    function test() {
+    public static test() {
         var initialArray = [2, 4, 6, 8, 0, 5, 2, 5, 7, 8, 4, 7, 9];
         var solutionArray = [0, 2, 2, 4, 4, 5, 5, 6, 7, 7, 8, 8, 9];
 
-        var sortedArray = insertionSort(initialArray);
+        var sortedArray = InsertionSortLoop.insertionSort(initialArray);
 
         var passed = JSON.stringify(sortedArray) == JSON.stringify(solutionArray);
         console.log('insertionSort:' + passed);
     }
-
-    test();
-
 }

@@ -1,9 +1,7 @@
 import BinaryHeapHelper from './tools/binary_heap_helper';
 
+export default class DijkstraBinaryHeap
 {
-
-    'use strict';
-
     /*
      * Finds the shortest path from a source vertex s within a directed graph G that contains a set V of n vertices 
      * and a set E of m directed edges with non-negative weights.
@@ -11,7 +9,7 @@ import BinaryHeapHelper from './tools/binary_heap_helper';
      * @param {Number} s
      * @returns 
      */
-    function dijkstra(G, s) {
+    public static dijkstra(G, s) {
 
         function relax(u, v, G, shortest, pred) {
             var current = shortest[v];
@@ -64,7 +62,7 @@ import BinaryHeapHelper from './tools/binary_heap_helper';
         };
     }
 
-    function testAll() {
+    public static test() {
 
         // the source vertex
         // from which to find the shortest path to other vertices
@@ -130,24 +128,22 @@ import BinaryHeapHelper from './tools/binary_heap_helper';
         //          v
         //          4
 
-        var result = dijkstra(G, source);
+        var result = DijkstraBinaryHeap.dijkstra(G, source);
 
-        function test(vertex, expectedShortest, expectedPred) {
+        function testPath(vertex, expectedShortest, expectedPred) {
             var isCorrect = result.shortest[vertex] === expectedShortest && result.pred[vertex] === expectedPred;
             console.log(`dijkstra 01 - The shortest path from ${source} to ${vertex} is ${result.shortest[vertex]} with predecessor ${expectedPred} - ${isCorrect}`);
         }
 
-        test(1, 0, null);
-        test(2, 6, 10);
-        test(3, 2, 1);
-        test(4, 8, 2);
-        test(5, 2, 1);
-        test(6, 6, 10);
-        test(7, 4, 9);
-        test(8, 4, 3);
-        test(9, 2, 1);
-        test(10, 4, 3);
+        testPath(1, 0, null);
+        testPath(2, 6, 10);
+        testPath(3, 2, 1);
+        testPath(4, 8, 2);
+        testPath(5, 2, 1);
+        testPath(6, 6, 10);
+        testPath(7, 4, 9);
+        testPath(8, 4, 3);
+        testPath(9, 2, 1);
+        testPath(10, 4, 3);
     }
-
-    testAll();
 }

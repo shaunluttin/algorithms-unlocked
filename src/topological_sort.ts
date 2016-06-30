@@ -1,12 +1,12 @@
 import ArrayHelper from './tools/array_helper';
 
-{
+export default class TopologicalSort {
 
     /**
      * @param {array} dag, adjacency list representation of a DAG
      * @returns {array} A linear order of the vertices
      */
-    function topologicalSort(dag) {
+    public static topologicalSort(dag) {
 
         /**
          * @param {number} vertex
@@ -58,7 +58,8 @@ import ArrayHelper from './tools/array_helper';
 
         return linearOrder;
     }
-    function test() {
+
+    public static test() {
 
         var dag = new Array(11);
 
@@ -74,7 +75,7 @@ import ArrayHelper from './tools/array_helper';
         dag[9] = [7];
         dag[10] = [6, 2];
 
-        var actualResult = topologicalSort(dag);
+        var actualResult = TopologicalSort.topologicalSort(dag);
 
         function testEdge(arr, u, v) {
             console.log('topologicalSort:' + (arr.indexOf(u) < arr.indexOf(v)));
@@ -119,6 +120,4 @@ import ArrayHelper from './tools/array_helper';
         //          v
         //          4
     }
-
-    test();
 }
