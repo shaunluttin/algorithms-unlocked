@@ -51,31 +51,24 @@ import ArrayHelper from './tools/array_helper';
         return rearrange(array, less, length);
     }
 
-    //test
-    var initialArray = [2, 4, 6, 8, 0, 5, 2, 5, 7, 8, 4, 7, 9];
+    function test() {
+        var initialArray = [2, 4, 6, 8, 0, 5, 2, 5, 7, 8, 4, 7, 9];
 
-    var equalExpected = [1, 0, 2, 0, 2, 2, 1, 2, 2, 1];
-    var equalActual = countKeysEqual(initialArray, initialArray.length, Math.max(...initialArray));
+        var equalExpected = [1, 0, 2, 0, 2, 2, 1, 2, 2, 1];
+        var equalActual = countKeysEqual(initialArray, initialArray.length, Math.max(...initialArray));
+        var passed01 = JSON.stringify(equalExpected) === JSON.stringify(equalActual);
+        console.log('countKeysEqual:' + passed01);
 
-    var passed01 = JSON.stringify(equalExpected) === JSON.stringify(equalActual);
-    console.log(equalExpected);
-    console.log(equalActual);
-    console.log('passed countKeysEqual:' + passed01);
+        var lessExpected = [0, 1, 1, 3, 3, 5, 7, 8, 10, 12];
+        var lessActual = countKeysLess(equalActual, Math.max(...initialArray));
+        var passed02 = JSON.stringify(lessExpected) === JSON.stringify(lessActual);
+        console.log('countKeysLess:' + passed02);
 
-    var lessExpected = [0, 1, 1, 3, 3, 5, 7, 8, 10, 12];
-    var lessActual = countKeysLess(equalActual, Math.max(...initialArray));
+        var sortedExpected = [0, 2, 2, 4, 4, 5, 5, 6, 7, 7, 8, 8, 9];
+        var sortedActual = countingSort(initialArray, initialArray.length, Math.max(...initialArray));
+        var passed = JSON.stringify(sortedActual) === JSON.stringify(sortedExpected);
+        console.log('countingSort:' + passed);
+    }
 
-    var passed02 = JSON.stringify(lessExpected) === JSON.stringify(lessActual);
-    console.log(lessExpected);
-    console.log(lessActual);
-    console.log('passed countKeysLess:' + passed02);
-
-    var sortedExpected = [0, 2, 2, 4, 4, 5, 5, 6, 7, 7, 8, 8, 9];
-    var sortedActual = countingSort(initialArray, initialArray.length, Math.max(...initialArray));
-
-    var passed = JSON.stringify(sortedActual) === JSON.stringify(sortedExpected);
-    console.log(sortedExpected);
-    console.log(sortedActual);
-    console.log('passed sortedExpected:' + passed);
-
+    test();
 }

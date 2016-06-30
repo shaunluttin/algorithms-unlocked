@@ -10,7 +10,7 @@
         function insert(Q, item) {
             Q.push(item);
         }
-        
+
         function relax(u, v, G, shortest, pred) {
             var current = shortest[v];
             var candidate = shortest[u] + G.E[u][v];
@@ -81,7 +81,7 @@
 
     // the source vertex
     // from which to find the shortest path to other vertices
-    var s = 1;
+    var source = 1;
 
     // a directed graph with a set of V vertices
     // and a set of E directed edges
@@ -143,11 +143,11 @@
     //          v
     //          4
 
-    var result = dijkstra(G, s);
+    var result = dijkstra(G, source);
 
-    // vertex, expected shortest, expected predecessor
-    function test(v, s, p) {
-        console.log(result.shortest[v] === s && result.pred[v] === p);
+    function test(vertex, expectedShortest, expectedPred) {
+        var isCorrect = result.shortest[vertex] === expectedShortest && result.pred[vertex] === expectedPred;
+        console.log(`dijkstra 02 - The shortest path from ${source} to ${vertex} is ${result.shortest[vertex]} with predecessor ${expectedPred} - ${isCorrect}`);
     }
 
     test(1, 0, null);
@@ -157,7 +157,7 @@
     test(5, 2, 1);
     test(6, 6, 10);
     test(7, 4, 9);
-    test(8, 4, 3); 
+    test(8, 4, 3);
     test(9, 2, 1);
     test(10, 4, 3);
 }

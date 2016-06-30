@@ -23,7 +23,7 @@ import ArrayHelper from './tools/array_helper';
     }
 
     function countKeysLess(equal, range) {
-        var less : Array<number> = ArrayHelper.fillArray(0, range + 1);
+        var less: Array<number> = ArrayHelper.fillArray(0, range + 1);
 
         less.forEach(function (item, index) {
             if (index === 0) {
@@ -38,7 +38,6 @@ import ArrayHelper from './tools/array_helper';
 
     function countKeysEqual(array, length, range, digit) {
         let equal: Array<number> = ArrayHelper.fillArray(0, range + 1);
-        console.log(equal);
 
         array.forEach(function (item) {
 
@@ -71,13 +70,15 @@ import ArrayHelper from './tools/array_helper';
         return result;
     }
 
-    var initialArray = [102, 414, 326, 348, 210, 425, 562, 905, 317, 228, 444, 57];
-    var sortedExpected = [57, 102, 210, 228, 317, 326, 348, 414, 425, 444, 562, 905];
+    function test() {
+        var initialArray = [102, 414, 326, 348, 210, 425, 562, 905, 317, 228, 444, 57];
+        var sortedExpected = [57, 102, 210, 228, 317, 326, 348, 414, 425, 444, 562, 905];
 
-    var sortedActual = radixSort(initialArray, 10, 3);
+        var sortedActual = radixSort(initialArray, 10, 3);
 
-    var passed = JSON.stringify(sortedActual) === JSON.stringify(sortedExpected);
-    console.log(sortedExpected);
-    console.log(sortedActual);
-    console.log('passed sortedExpected:' + passed);
+        var passed = JSON.stringify(sortedActual) === JSON.stringify(sortedExpected);
+        console.log('radixSort:' + passed);
+    }
+
+    test();
 }
