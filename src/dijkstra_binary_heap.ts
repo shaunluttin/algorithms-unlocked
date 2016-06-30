@@ -1,6 +1,6 @@
 import BinaryHeapHelper from './tools/binary_heap_helper';
 
-(function () {
+{
 
     'use strict';
 
@@ -150,4 +150,4 @@ import BinaryHeapHelper from './tools/binary_heap_helper';
     test(9, 2, 1);
     test(10, 4, 3);
 
-} ());
+}

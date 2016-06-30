@@ -1,6 +1,6 @@
 "use strict";
 var binary_heap_helper_1 = require('./tools/binary_heap_helper');
-(function () {
+{
     'use strict';
     /*
      * Finds the shortest path from a source vertex s within a directed graph G that contains a set V of n vertices
@@ -129,5 +129,5 @@ var binary_heap_helper_1 = require('./tools/binary_heap_helper');
     test(8, 4, 3);
     test(9, 2, 1);
     test(10, 4, 3);
-}());
+}
 //# sourceMappingURL=dijkstra_binary_heap.js.map
