@@ -40,7 +40,7 @@ var binary_heap_helper_1 = require('./tools/binary_heap_helper');
             binary_heap_helper_1.default.insert(binaryHeap, vertexNumber, shortest);
         });
         while (any(binaryHeap)) {
-            var u = binary_heap_helper_1.default.extractMin(binaryHeap, shortest);
+            var u = binary_heap_helper_1.default.extractMinKey(binaryHeap, shortest);
             G.V[u].forEach(function (adjacentVertex) {
                 var decreased = relax(u, adjacentVertex, G, shortest, pred);
                 if (decreased) {

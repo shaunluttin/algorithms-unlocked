@@ -11,12 +11,36 @@ var BinaryHeapHelper = (function () {
         return Math.floor((itemIndex - 1) / 2);
     };
     /*
+     * Moves an item up a binary heap.
+     * @param {Array} binaryHeap
+     * @param {Number} itemKey
+     * @param {Array} itemValues
+     */
+    BinaryHeapHelper.bubbleUpValue = function (binaryHeap, itemValue) {
+        var itemIndex = binaryHeap.lastIndexOf(itemValue);
+        if (itemIndex === 0) {
+            return;
+        }
+        var parentIndex = BinaryHeapHelper.binaryParent(itemIndex);
+        var parentValue = binaryHeap[parentIndex];
+        while (itemValue < parentValue) {
+            if (itemIndex === 0) {
+                break;
+            }
+            binaryHeap[itemIndex] = parentValue;
+            binaryHeap[parentIndex] = itemValue;
+            itemIndex = parentIndex;
+            parentIndex = this.binaryParent(itemIndex);
+            parentValue = binaryHeap[parentIndex];
+        }
+    };
+    /*
      * Moves an itemKey up a binary heap based on its itemValue.
      * @param {Array} binaryHeap
      * @param {Number} itemKey
      * @param {Array} itemValues
      */
-    BinaryHeapHelper.bubbleUp = function (binaryHeap, itemKey, itemValues) {
+    BinaryHeapHelper.bubbleUpKey = function (binaryHeap, itemKey, itemValues) {
         var itemIndex = binaryHeap.lastIndexOf(itemKey);
         if (itemIndex === 0) {
             return;
@@ -44,8 +68,14 @@ var BinaryHeapHelper = (function () {
      * @param {Array} itemValues
      */
     BinaryHeapHelper.insert = function (binaryHeap, itemKey, itemValues) {
+        if (itemValues === void 0) { itemValues = null; }
         binaryHeap.push(itemKey);
-        BinaryHeapHelper.bubbleUp(binaryHeap, itemKey, itemValues);
+        if (itemValues === null) {
+            BinaryHeapHelper.bubbleUpValue(binaryHeap, itemKey);
+        }
+        else {
+            BinaryHeapHelper.bubbleUpKey(binaryHeap, itemKey, itemValues);
+        }
     };
     /*
      * Removes the item with the lowest value from a binary heap, and return that item to the caller.
@@ -53,7 +83,65 @@ var BinaryHeapHelper = (function () {
      * @param {Array} itemValues
      * @return {Number} item
      */
-    BinaryHeapHelper.extractMin = function (binaryHeap, itemValues) {
+    BinaryHeapHelper.extractMinValue = function (binaryHeap) {
+        function binaryFirstChild(itemIndex) {
+            return itemIndex * 2 + 1;
+        }
+        if (binaryHeap.length === 1) {
+            return binaryHeap.pop();
+        }
+        // save the contents of the root
+        var originalRoot = binaryHeap[0];
+        // move the last leaf's content into the root
+        binaryHeap[0] = binaryHeap.pop();
+        // bubble down until the heap property holds
+        var parentIndex = 0;
+        var parentValue = binaryHeap[parentIndex];
+        var firstChildIndex = binaryFirstChild(parentIndex);
+        var firstChildValue = binaryHeap[firstChildIndex];
+        var secondChildIndex = firstChildIndex + 1;
+        var secondChildValue = binaryHeap[secondChildIndex];
+        function doSwapSecond(first, second, parent) {
+            return second !== undefined
+                && second <= first
+                && second < parent;
+        }
+        function doSwapFirst(first, second, parent) {
+            return (second === undefined || (first <= second))
+                && first < parent;
+        }
+        function isHeap(first, second, parent) {
+            return (first === undefined) // no children
+                || (second === undefined && parent <= first) // one child
+                || (second !== undefined && parent <= first && parent <= second); // two children
+        }
+        while (!isHeap(firstChildValue, secondChildValue, parentValue)) {
+            parentValue = binaryHeap[parentIndex];
+            firstChildIndex = binaryFirstChild(parentIndex);
+            firstChildValue = binaryHeap[firstChildIndex];
+            secondChildIndex = firstChildIndex + 1;
+            secondChildValue = binaryHeap[secondChildIndex];
+            if (doSwapSecond(firstChildValue, secondChildValue, parentValue)) {
+                binaryHeap[parentIndex] = secondChildValue;
+                binaryHeap[secondChildIndex] = parentValue;
+                parentIndex = secondChildIndex;
+            }
+            if (doSwapFirst(firstChildValue, secondChildValue, parentValue)) {
+                binaryHeap[parentIndex] = firstChildValue;
+                binaryHeap[firstChildIndex] = parentValue;
+                parentIndex = firstChildIndex;
+            }
+        }
+        // return the original root to the caller
+        return originalRoot;
+    };
+    /*
+     * Removes the item with the lowest value from a binary heap, and return that item to the caller.
+     * @param {Array} binaryHeap
+     * @param {Array} itemValues
+     * @return {Number} item
+     */
+    BinaryHeapHelper.extractMinKey = function (binaryHeap, itemValues) {
         function binaryFirstChild(itemIndex) {
             return itemIndex * 2 + 1;
         }
@@ -118,7 +206,7 @@ var BinaryHeapHelper = (function () {
      * @param {Array} itemValues
      */
     BinaryHeapHelper.decreaseKey = function (binaryHeap, itemKey, itemValues) {
-        BinaryHeapHelper.bubbleUp(binaryHeap, itemKey, itemValues);
+        BinaryHeapHelper.bubbleUpKey(binaryHeap, itemKey, itemValues);
     };
     return BinaryHeapHelper;
 }());

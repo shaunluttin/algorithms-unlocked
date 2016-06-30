@@ -21,7 +21,7 @@ import BinaryHeapHelper from './tools/binary_heap_helper';
                 pred[v] = u;
                 return true;
             }
-
+ 
             return false;
         }
 
@@ -49,7 +49,7 @@ import BinaryHeapHelper from './tools/binary_heap_helper';
         });
 
         while (any(binaryHeap)) {
-            var u = BinaryHeapHelper.extractMin(binaryHeap, shortest);
+            var u = BinaryHeapHelper.extractMinKey(binaryHeap, shortest);
             G.V[u].forEach((adjacentVertex) => {
                 var decreased = relax(u, adjacentVertex, G, shortest, pred);
                 if (decreased) {
