@@ -15,10 +15,11 @@ export default class BellmanFord {
     public static bellmanFord(G, s) {
         // indexes represent vertex numbers v, 
         // items represent the weight of a shortest path from s to v
-        let shortest: Array<number>;
+        let shortest: Array<number> = ArrayHelper.fillArray(Number.POSITIVE_INFINITY, G.V.length);
+        shortest[s] = 0;
         // indexes represent vertex numbers v, 
         // values represent the predecessor to v on a shortest path from s to v 
-        let pred: Array<number>;
+        let pred: Array<number> = ArrayHelper.fillArray(null, G.V.length);
 
         return {
             shortest,
@@ -61,16 +62,16 @@ export default class BellmanFord {
 
         var result = BellmanFord.bellmanFord(G, s);
 
-        console.log(result.shortest[0] === 0);
-        console.log(result.shortest[1] === 2);
-        console.log(result.shortest[2] === 7);
-        console.log(result.shortest[3] === 4);
-        console.log(result.shortest[4] === -2);
+        console.log('bellmanFord:' + (result.shortest[0] === 0));
+        console.log('bellmanFord:' + (result.shortest[1] === 2));
+        console.log('bellmanFord:' + (result.shortest[2] === 7));
+        console.log('bellmanFord:' + (result.shortest[3] === 4));
+        console.log('bellmanFord:' + (result.shortest[4] === -2));
 
-        console.log(result.pred[0] === 0);
-        console.log(result.pred[1] === 2);
-        console.log(result.pred[2] === 7);
-        console.log(result.pred[3] === 4);
-        console.log(result.pred[4] === -2);
+        console.log('bellmanFord:' + (result.pred[0] === 0));
+        console.log('bellmanFord:' + (result.pred[1] === 2));
+        console.log('bellmanFord:' + (result.pred[2] === 7));
+        console.log('bellmanFord:' + (result.pred[3] === 4));
+        console.log('bellmanFord:' + (result.pred[4] === -2));
     }
 }
