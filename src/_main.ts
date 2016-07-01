@@ -9,6 +9,9 @@ import QuickSort from './quick_sort';
 import RadixSort from './radix_sort';
 import SelectionSort from './selection_sort_loop';
 import TopologicalSort from './topological_sort';
+import BellmanFord from './bellman_ford';
+import FindNegativeWeightCycle from './find_negative_weight_cycle';
+
 
 CountingSort.test();
 DagShortestPath.test();
