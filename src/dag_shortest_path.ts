@@ -1,4 +1,5 @@
 import ArrayHelper from './tools/array_helper';
+import GraphHelper from './tools/graph_helper';
 
 export default class DagShortestPath
 {
@@ -56,20 +57,11 @@ export default class DagShortestPath
 
         var weight = G.E;
 
-        function relax(u, v) {
-            var current = shortest[v];
-            var candidate = shortest[u] + weight[u][v];
-            if (candidate < current) {
-                shortest[v] = candidate;
-                pred[v] = u;
-            }
-        }
-
         var sortedDag = DagShortestPath.topologicalSort(G.V);
 
         sortedDag.forEach(function (u) {
             G.V[u].forEach(function (v) {
-                relax(u, v);
+                GraphHelper.relax(u, v, shortest, pred, weight);
             });
         });
 

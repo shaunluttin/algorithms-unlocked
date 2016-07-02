@@ -1,4 +1,5 @@
 import BinaryHeapHelper from './tools/binary_heap_helper';
+import GraphHelper from './tools/graph_helper';
 
 export default class DijkstraBinaryHeap
 {
@@ -10,18 +11,6 @@ export default class DijkstraBinaryHeap
      * @returns 
      */
     public static dijkstra(G, s) {
-
-        function relax(u, v, G, shortest, pred) {
-            var current = shortest[v];
-            var candidate = shortest[u] + G.E[u][v];
-            if (candidate < current) {
-                shortest[v] = candidate;
-                pred[v] = u;
-                return true;
-            }
-
-            return false;
-        }
 
         function any(array) {
             return array.filter((x) => x !== null).length > 0;
@@ -49,7 +38,7 @@ export default class DijkstraBinaryHeap
         while (any(binaryHeap)) {
             var u = BinaryHeapHelper.extractMinKey(binaryHeap, shortest);
             G.V[u].forEach((adjacentVertex) => {
-                var decreased = relax(u, adjacentVertex, G, shortest, pred);
+                var decreased = GraphHelper.relax(u, adjacentVertex, shortest, pred, G.E);
                 if (decreased) {
                     BinaryHeapHelper.decreaseKey(binaryHeap, adjacentVertex, shortest);
                 }

@@ -1,3 +1,5 @@
+import GraphHelper from './tools/graph_helper';
+
 export default class DijkstraSimpleArray {
     public static dijkstra(G, s) {
 
@@ -8,17 +10,8 @@ export default class DijkstraSimpleArray {
             Q.push(item);
         }
 
-        function relax(u, v, G, shortest, pred) {
-            var current = shortest[v];
-            var candidate = shortest[u] + G.E[u][v];
-            if (candidate < current) {
-                shortest[v] = candidate;
-                pred[v] = u;
-            }
-        }
-
         function relaxAll(u, G, shortest, pred) {
-            G.V[u].forEach((v) => relax(u, v, G, shortest, pred));
+            G.V[u].forEach((v) => GraphHelper.relax(u, v, shortest, pred, G.E));
         }
 
         // removes the item in Q with the minimum shortest value,

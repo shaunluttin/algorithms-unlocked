@@ -13,6 +13,11 @@ export default class BellmanFord {
      * @returns an object containing shortest and pred.
      */
     public static bellmanFord(G, s) {
+
+        // 
+        // step one
+        //
+
         // indexes represent vertex numbers v, 
         // items represent the weight of a shortest path from s to v
         let shortest: Array<number> = ArrayHelper.fillArray(Number.POSITIVE_INFINITY, G.V.length);
@@ -20,6 +25,17 @@ export default class BellmanFord {
         // indexes represent vertex numbers v, 
         // values represent the predecessor to v on a shortest path from s to v 
         let pred: Array<number> = ArrayHelper.fillArray(null, G.V.length);
+
+        // 
+        // step two
+        //
+
+        var n = G.V.length; // loop one time fewer than the length.
+        while (n > 0) {
+            G.E.forEach(function(item, index) {
+                
+            });
+        }
 
         return {
             shortest,
