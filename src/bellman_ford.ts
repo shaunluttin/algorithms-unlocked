@@ -1,4 +1,5 @@
 import ArrayHelper from './tools/array_helper';
+import GraphHelper from './tools/graph_helper';
 
 export default class BellmanFord {
 
@@ -32,9 +33,12 @@ export default class BellmanFord {
 
         var n = G.V.length; // loop one time fewer than the length.
         while (n > 0) {
-            G.E.forEach(function(item, index) {
-                
+            G.E.forEach(function (adjacents, u) {
+                adjacents.forEach(function (weight, v) {
+                    GraphHelper.relax(u, v, shortest, pred, G.E);
+                })
             });
+            n = n - 1;
         }
 
         return {
@@ -84,10 +88,13 @@ export default class BellmanFord {
         console.log('bellmanFord:' + (result.shortest[3] === 4));
         console.log('bellmanFord:' + (result.shortest[4] === -2));
 
-        console.log('bellmanFord:' + (result.pred[0] === 0));
-        console.log('bellmanFord:' + (result.pred[1] === 2));
-        console.log('bellmanFord:' + (result.pred[2] === 7));
-        console.log('bellmanFord:' + (result.pred[3] === 4));
-        console.log('bellmanFord:' + (result.pred[4] === -2));
+        console.log(result.shortest);
+        console.log(result.pred);
+
+        console.log('bellmanFord:' + (result.pred[0] === null));
+        console.log('bellmanFord:' + (result.pred[1] === 3));
+        console.log('bellmanFord:' + (result.pred[2] === 0));
+        console.log('bellmanFord:' + (result.pred[3] === 2));
+        console.log('bellmanFord:' + (result.pred[4] === 1));
     }
 }
