@@ -18,7 +18,6 @@ export default class BellmanFord {
         // 
         // step one
         //
-
         // indexes represent vertex numbers v, 
         // items represent the weight of a shortest path from s to v
         let shortest: Array<number> = ArrayHelper.fillArray(Number.POSITIVE_INFINITY, G.V.length);
@@ -30,7 +29,6 @@ export default class BellmanFord {
         // 
         // step two
         //
-
         var n = G.V.length; // loop one time fewer than the length.
         while (n > 0) {
             G.E.forEach(function (adjacents, u) {
@@ -77,9 +75,6 @@ export default class BellmanFord {
 
         let s: number = 0; // source
 
-        console.log(G.V);
-        console.log(G.E);
-
         var result = BellmanFord.bellmanFord(G, s);
 
         console.log('bellmanFord:' + (result.shortest[0] === 0));
@@ -87,9 +82,6 @@ export default class BellmanFord {
         console.log('bellmanFord:' + (result.shortest[2] === 7));
         console.log('bellmanFord:' + (result.shortest[3] === 4));
         console.log('bellmanFord:' + (result.shortest[4] === -2));
-
-        console.log(result.shortest);
-        console.log(result.pred);
 
         console.log('bellmanFord:' + (result.pred[0] === null));
         console.log('bellmanFord:' + (result.pred[1] === 3));
