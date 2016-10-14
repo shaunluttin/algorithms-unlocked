@@ -1,5 +1,5 @@
-import ArrayHelper from './tools/array_helper';
-import GraphHelper from './tools/graph_helper';
+import ArrayHelper from "./tools/array_helper";
+import GraphHelper from "./tools/graph_helper";
 
 export default class BellmanFord {
 
@@ -29,7 +29,7 @@ export default class BellmanFord {
         // 
         // step two
         //
-        var n = G.V.length; // loop one time fewer than the length.
+        let n = G.V.length; // loop one time fewer than the length.
         while (n > 0) {
             G.E.forEach(function (adjacents, u) {
                 adjacents.forEach(function (weight, v) {
@@ -41,19 +41,19 @@ export default class BellmanFord {
 
         return {
             shortest,
-            pred
+            pred,
         };
     }
 
     public static test() {
 
         let G: any = {
+            E: [], // adjacency matrix
             V: [], // adjacency list
-            E: []  // adjacency matrix
         };
 
         // adjacency matrix representation of a graph with edge weights
-        var i = 0;
+        let i = 0;
         while (i < 5) {
             G.E.push([]);
             ++i;
@@ -75,18 +75,18 @@ export default class BellmanFord {
 
         let s: number = 0; // source
 
-        var result = BellmanFord.bellmanFord(G, s);
+        let result = BellmanFord.bellmanFord(G, s);
 
-        console.log('bellmanFord:' + (result.shortest[0] === 0));
-        console.log('bellmanFord:' + (result.shortest[1] === 2));
-        console.log('bellmanFord:' + (result.shortest[2] === 7));
-        console.log('bellmanFord:' + (result.shortest[3] === 4));
-        console.log('bellmanFord:' + (result.shortest[4] === -2));
+        console.log("bellmanFord:" + (result.shortest[0] === 0));
+        console.log("bellmanFord:" + (result.shortest[1] === 2));
+        console.log("bellmanFord:" + (result.shortest[2] === 7));
+        console.log("bellmanFord:" + (result.shortest[3] === 4));
+        console.log("bellmanFord:" + (result.shortest[4] === -2));
 
-        console.log('bellmanFord:' + (result.pred[0] === null));
-        console.log('bellmanFord:' + (result.pred[1] === 3));
-        console.log('bellmanFord:' + (result.pred[2] === 0));
-        console.log('bellmanFord:' + (result.pred[3] === 2));
-        console.log('bellmanFord:' + (result.pred[4] === 1));
+        console.log("bellmanFord:" + (result.pred[0] === null));
+        console.log("bellmanFord:" + (result.pred[1] === 3));
+        console.log("bellmanFord:" + (result.pred[2] === 0));
+        console.log("bellmanFord:" + (result.pred[3] === 2));
+        console.log("bellmanFord:" + (result.pred[4] === 1));
     }
 }

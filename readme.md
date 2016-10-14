@@ -1,8 +1,14 @@
 
 # Usuage
+In general:
 ```
 $ tsc filename.ts     # build with TypeScript
 $ node filename.js    # run with NodeJS
+```
+For example:
+```
+$ tsc _main.ts; 
+$ node _main.js
 ```
 
 # Resources
