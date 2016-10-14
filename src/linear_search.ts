@@ -2,14 +2,16 @@
 
 export default class LinearSearch {
 
+    private static NotFound = -1;
+
     // A: an array 
     // n: the number of elements in A to search through
     // x: the value being searched for
     // returns either an index i for which A[i] equals x, 
     // or the special value NOT-FOUND (which we represent with -1)
     public static linearSearch(A: Array<string>, n: number, x: string) {
-        let answer: number = -1;
-        for (var i = 0; i <= n; i += 1) {
+        let answer: number = this.NotFound;
+        for (var i = 0; i < n; i += 1) {
             var current = A[i];
             if (current == x) {
                 answer = i;
@@ -22,13 +24,45 @@ export default class LinearSearch {
     // this has a better best case,
     // because it returns early
     public static betterLinearSearch(A: Array<string>, n: number, x: string) {
-        let answer: number = -1;
-        for (var i = 0; i <= n; i += 1) {
+        for (var i = 0; i < n; i += 1) {
             var current = A[i];
             if (current == x) {
                 return i;
             }
         }
+
+        return this.NotFound;
+    }
+
+    // A: an array 
+    // n: the number of elements in A to search through
+    // x: the value being searched for
+    // i: the starting index in the array 
+    // returns either an index i for which A[i] equals x, 
+    // or the special value NOT-FOUND (which we represent with -1)
+    public static recursiveLinearSearch(A: Array<string>, n: number, x: string, i: number) {
+
+        // loop-invarient:
+        // if x is present in the array,
+        // then it is present in the sub array
+
+        // contra-positive
+        // if x is not present in the sub array
+        // then it is not present in the array
+
+        // base case
+        if(i == n) {
+            // the sub array is of length zero
+            return this.NotFound;
+        } else {
+            // the sub array is of length n - i 
+            if (A[i] == x) {
+                return i;
+            }
+            else {
+                return this.recursiveLinearSearch(A, n, x, i + 1); 
+            }
+        } 
     }
 
     // this return early AND has a better constant, 
@@ -51,7 +85,7 @@ export default class LinearSearch {
             return i;
         }
         else {
-            return -1;
+            return this.NotFound;
         }
     }
 
@@ -66,16 +100,23 @@ export default class LinearSearch {
             "Quequag",
             "Tashtago"
         ];
-        
-        let passed = 
-            LinearSearch.linearSearch(A, A.length - 1, "Ahab") == 3 && 
-            LinearSearch.linearSearch(A, A.length -1, "Tashtago") == 6 &&
-            
-            LinearSearch.betterLinearSearch(A, A.length - 1, "Ahab") == 3 && 
-            LinearSearch.betterLinearSearch(A, A.length -1, "Tashtago") == 6 &&
 
-            LinearSearch.sentinalLinearSearch(A, A.length - 1, "Ahab") == 3 && 
-            LinearSearch.sentinalLinearSearch(A, A.length -1, "Tashtago") == 6; 
+        let passed =
+            LinearSearch.linearSearch(A, A.length, "Ahab") == 3 &&
+            LinearSearch.linearSearch(A, A.length, "Tashtago") == 6 &&
+            LinearSearch.linearSearch(A, A.length, "Moby") == this.NotFound &&
+
+            LinearSearch.betterLinearSearch(A, A.length, "Ahab") == 3 &&
+            LinearSearch.betterLinearSearch(A, A.length, "Tashtago") == 6 &&
+            LinearSearch.betterLinearSearch(A, A.length, "Moby") == this.NotFound &&
+
+            LinearSearch.sentinalLinearSearch(A, A.length, "Ahab") == 3 &&
+            LinearSearch.sentinalLinearSearch(A, A.length, "Tashtago") == 6; 
+            LinearSearch.sentinalLinearSearch(A, A.length, "Dick") == this.NotFound &&
+
+            LinearSearch.recursiveLinearSearch(A, A.length, "Ahab", 0) == 3 &&
+            LinearSearch.recursiveLinearSearch(A, A.length, "Tashtago", 0) == 6 &&
+            LinearSearch.recursiveLinearSearch(A, A.length, "Moby", 0) == this.NotFound;
 
         console.log("LinearSearch:" + passed);
     }
