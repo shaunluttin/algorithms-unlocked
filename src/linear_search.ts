@@ -1,7 +1,8 @@
 // page 13
 
-// if we know nothing about the order of elements in the array
-// then we cannot do better than a linear search
+// the best search
+// if we know nothing about the order of the array
+// O(n)
 export default class LinearSearch {
 
     // A: an array 
