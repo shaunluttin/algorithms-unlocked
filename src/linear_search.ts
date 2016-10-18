@@ -2,8 +2,6 @@
 
 export default class LinearSearch {
 
-    private static NotFound = -1;
-
     // A: an array 
     // n: the number of elements in A to search through
     // x: the value being searched for
@@ -11,9 +9,9 @@ export default class LinearSearch {
     // or the special value NOT-FOUND (which we represent with -1)
     public static linearSearch(A: Array<string>, n: number, x: string) {
         let answer: number = this.NotFound;
-        for (var i = 0; i < n; i += 1) {
-            var current = A[i];
-            if (current == x) {
+        for (let i = 0; i < n; i += 1) {
+            let current = A[i];
+            if (current === x) {
                 answer = i;
             }
         }
@@ -24,9 +22,9 @@ export default class LinearSearch {
     // this has a better best case,
     // because it returns early
     public static betterLinearSearch(A: Array<string>, n: number, x: string) {
-        for (var i = 0; i < n; i += 1) {
-            var current = A[i];
-            if (current == x) {
+        for (let i = 0; i < n; i += 1) {
+            let current = A[i];
+            if (current === x) {
                 return i;
             }
         }
@@ -51,18 +49,17 @@ export default class LinearSearch {
         // then it is not present in the array
 
         // base case
-        if(i == n) {
+        if (i === n) {
             // the sub array is of length zero
             return this.NotFound;
         } else {
             // the sub array is of length n - i 
-            if (A[i] == x) {
+            if (A[i] === x) {
                 return i;
-            }
-            else {
+            } else {
                 return this.recursiveLinearSearch(A, n, x, i + 1); 
             }
-        } 
+        }
     }
 
     // this return early AND has a better constant, 
@@ -83,8 +80,7 @@ export default class LinearSearch {
         A[n] = last;
         if (i < n || A[n] == x) {
             return i;
-        }
-        else {
+        } else {
             return this.NotFound;
         }
     }
@@ -98,28 +94,30 @@ export default class LinearSearch {
             "Ahab",
             "Stubb",
             "Quequag",
-            "Tashtago"
+            "Tashtago",
         ];
 
         let passed =
-            LinearSearch.linearSearch(A, A.length, "Ahab") == 3 &&
-            LinearSearch.linearSearch(A, A.length, "Tashtago") == 6 &&
-            LinearSearch.linearSearch(A, A.length, "Moby") == this.NotFound &&
+            LinearSearch.linearSearch(A, A.length, "Ahab") === 3 &&
+            LinearSearch.linearSearch(A, A.length, "Tashtago") === 6 &&
+            LinearSearch.linearSearch(A, A.length, "Moby") === this.NotFound &&
 
-            LinearSearch.betterLinearSearch(A, A.length, "Ahab") == 3 &&
-            LinearSearch.betterLinearSearch(A, A.length, "Tashtago") == 6 &&
-            LinearSearch.betterLinearSearch(A, A.length, "Moby") == this.NotFound &&
+            LinearSearch.betterLinearSearch(A, A.length, "Ahab") === 3 &&
+            LinearSearch.betterLinearSearch(A, A.length, "Tashtago") === 6 &&
+            LinearSearch.betterLinearSearch(A, A.length, "Moby") === this.NotFound &&
 
-            LinearSearch.sentinalLinearSearch(A, A.length, "Ahab") == 3 &&
-            LinearSearch.sentinalLinearSearch(A, A.length, "Tashtago") == 6; 
-            LinearSearch.sentinalLinearSearch(A, A.length, "Dick") == this.NotFound &&
+            LinearSearch.sentinalLinearSearch(A, A.length, "Ahab") === 3 &&
+            LinearSearch.sentinalLinearSearch(A, A.length, "Tashtago") === 6 &&
+            LinearSearch.sentinalLinearSearch(A, A.length, "Dick") === this.NotFound &&
 
-            LinearSearch.recursiveLinearSearch(A, A.length, "Ahab", 0) == 3 &&
-            LinearSearch.recursiveLinearSearch(A, A.length, "Tashtago", 0) == 6 &&
-            LinearSearch.recursiveLinearSearch(A, A.length, "Moby", 0) == this.NotFound;
+            LinearSearch.recursiveLinearSearch(A, A.length, "Ahab", 0) === 3 &&
+            LinearSearch.recursiveLinearSearch(A, A.length, "Tashtago", 0) === 6 &&
+            LinearSearch.recursiveLinearSearch(A, A.length, "Moby", 0) === this.NotFound;
 
         console.log("LinearSearch:" + passed);
     }
+
+    private static NotFound = -1;
 }
 
 LinearSearch.test();
