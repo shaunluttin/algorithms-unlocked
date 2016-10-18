@@ -1,5 +1,7 @@
 // page 13
 
+// if we know nothing about the order of elements in the array
+// then we cannot do better than a linear search
 export default class LinearSearch {
 
     // A: an array 
